@@ -3,8 +3,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import httpx
-import os
 from dotenv import load_dotenv
+import os
 
 load_dotenv() 
 
