@@ -3,26 +3,43 @@
 <head>
     <title>NASA APOD</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="/static/logo.png" type="image/png">
 </head>
 <body>
-    <h1>NASA Astronomy Picture of the Day</h1>
+    <a href="/" class="title-link">
+        <div class="title-wrapper">
+            <img src="/static/logo.png" alt="NASA Logo" class="logo">
+            <h1>NASA Astronomy Picture of the Day</h1>
+        </div>
+    </a>
 
     <form method="get" action="/" class="date-picker-form">
-        <input type="date" id="date" name="date" value="{{ request.query_params.get('date', '') }}">
-        <button type="submit">Bekijk</button>
+        <input 
+            type="date" 
+            id="date" 
+            name="date" 
+            value="{{ request.query_params.get('date', '') }}"
+            min="{{ min_date }}"
+            max="{{ today }}"
+        >
+        <button type="submit" class="primary-btn search-btn">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
     </form>
 
     <hr>
 
     {% for item in data %}
-        <div class="apod-container">
-            <h2>{{ item.title }}</h2>
-            <p class="date">{{ item.date }}</p>
-            <img class="apod-image" src="{{ item.url }}" alt="{{ item.title }}" onclick="openLightbox(this)">
-            <p class="explanation">{{ item.explanation }}</p>
-        </div>
-        <hr>
+    <div class="apod-container">
+        <h2>{{ item.title }}</h2>
+        <p class="date">{{ display_date }}</p>
+        <img class="apod-image" src="{{ item.url }}" alt="{{ item.title }}" onclick="openLightbox(this)">
+        <p class="explanation">{{ item.explanation }}</p>
+    </div>
     {% endfor %}
+
+    <hr>
 
     <div id="lightbox" onclick="closeLightbox()">
         <img id="lightbox-img" src="">
@@ -39,6 +56,11 @@
 
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function closeWarning() {
+            const box = document.getElementById("warning-box");
+            if (box) box.style.display = "none";
         }
     </script>
 </body>
