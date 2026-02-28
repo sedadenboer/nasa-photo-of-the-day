@@ -17,15 +17,16 @@ APOD_API_KEY = os.getenv("NASA_API_KEY", "DEMO_KEY")
 
 MIN_DATE = date(1995, 6, 16)
 TODAY = date.today()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 TEST_DATA = None
 if os.getenv("TEST_FLAG", "false").lower() == "true":
-    with open("testing/test-data.json", encoding="utf-8") as f:
+    with open(os.path.join(BASE_DIR, "testing", "test-data.json"), encoding="utf-8") as f:
         TEST_DATA = json.load(f)
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 client = httpx.AsyncClient(timeout=30.0)
 
