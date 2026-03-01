@@ -34,7 +34,19 @@
     <div class="apod-container">
         <h2>{{ item.title }}</h2>
         <p class="date">{{ display_date }}</p>
-        <img class="apod-image" src="{{ item.url }}" alt="{{ item.title }}" onclick="openLightbox(this)">
+
+        {% if item.media_type == "image" %}
+            <img class="apod-image"
+                src="{{ item.url }}"
+                alt="{{ item.title }}"
+                onclick="openLightbox(this)">
+        {% elif item.media_type == "video" %}
+            <video controls class="apod-video" width="30%" height="auto">
+                <source src="{{ item.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+
         <p class="explanation">{{ item.explanation }}</p>
     </div>
     {% endfor %}

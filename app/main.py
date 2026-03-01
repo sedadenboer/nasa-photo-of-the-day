@@ -66,7 +66,7 @@ async def home(
         apod = TEST_DATA if TEST_DATA else await fetch_apod(date_str)
     except httpx.HTTPStatusError:
         return RedirectResponse(url="/", status_code=302)
-
+    print(apod)
     display_date = datetime.strptime(
         apod["date"], "%Y-%m-%d"
     ).strftime("%B %d, %Y")
